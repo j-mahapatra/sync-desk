@@ -11,22 +11,41 @@ import {
   University,
 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { useRouter } from 'next/navigation';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 export default function Dashboard() {
   const { user } = useUser();
+  const router = useRouter();
   const [userOrganizations, setUserOrganizations] = useState<string[]>([]);
 
   return (
-    <div className='my-6 p-6 md:px-28 lg:px-32 xl:px-36 space-y-6 '>
+    <div className='my-6 p-6 md:px-28 lg:px-32 xl:px-36 space-y-6'>
       <div className='flex justify-between'>
         <h2 className='font-semibold text-3xl'>{`Hello${user?.firstName ? `, ${user.firstName}!` : ''}`}</h2>
-        <Button>
-          <CopyPlus />
-        </Button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                onClick={() => router.push('/dashboard/create-workspace')}
+              >
+                <CopyPlus />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Create a new workspace</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
       <Separator />
       <div className='flex justify-between'>
-        <h2 className='font-semibold text-2xl text-slate-900'>Workspaces</h2>
+        <h2 className='font-semibold text-3xl text-slate-900'>Workspaces</h2>
         <div className='flex space-x-2'>
           <LayoutGrid />
           <AlignLeft />
@@ -42,6 +61,7 @@ export default function Dashboard() {
             <Button
               variant={'outline'}
               className='flex items-center justify-center'
+              onClick={() => router.push('/dashboard/create-workspace')}
             >
               <Plus className='w-4 h-4 mr-1' />
               <span>Create a Workspace</span>
