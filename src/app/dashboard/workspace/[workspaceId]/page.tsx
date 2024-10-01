@@ -25,6 +25,7 @@ import {
 import { db } from '@/lib/firebase-config';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -129,7 +130,9 @@ export default function WorkspaceDetails() {
                 )}
                 Create
               </Button>
-              <Button variant='outline'>Cancel</Button>
+              <DialogClose asChild>
+                <Button variant='outline'>Cancel</Button>
+              </DialogClose>
             </div>
           </DialogContent>
         </Dialog>

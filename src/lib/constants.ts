@@ -9,3 +9,5 @@ export const COVER_IMAGE_URLS: string[] = [
   'https://img.freepik.com/free-vector/background-line-abstract-gradient-design_483537-2563.jpg?t=st=1727727791~exp=1727731391~hmac=c122a9200a95bbd2e689c445cb0b5bceb62b7fdfe757fc6821afd86fe4842ad8&w=1480',
   'https://img.freepik.com/free-vector/line-wave-background-gradient-style-template_483537-5140.jpg?t=st=1727727810~exp=1727731410~hmac=04ba4b9106e0ff29e7de601628491a138e06196aeeb65003610cfc4626899044&w=1480',
 ];
+
+export const MAX_FREE_DOCUMENT_LIMIT = 3;

@@ -5,5 +5,6 @@ import React from 'react';
 
 export default function DocumentDetails() {
   const { documentId } = useParams();
-  return <div>{documentId}</div>;
+
+  return <div className='flex w-full'>{documentId}</div>;
 }
