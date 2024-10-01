@@ -22,7 +22,7 @@ import {
 export default function Dashboard() {
   const { user } = useUser();
   const router = useRouter();
-  const [userOrganizations, setUserOrganizations] = useState<string[]>([]);
+  const [userWorkspaces, setUserWorkspaces] = useState<string[]>([]);
 
   return (
     <div className='my-6 p-6 md:px-28 lg:px-32 xl:px-36 space-y-6'>
@@ -51,7 +51,7 @@ export default function Dashboard() {
           <AlignLeft />
         </div>
       </div>
-      {userOrganizations.length === 0 && (
+      {userWorkspaces.length === 0 && (
         <div className='flex flex-col w-full justify-center items-center'>
           <div className='flex flex-col w-fit justify-center items-center border rounded-md p-8 shadow-md space-y-6'>
             <p className='w-full text-center'>
