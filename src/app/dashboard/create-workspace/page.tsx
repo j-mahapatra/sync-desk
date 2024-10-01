@@ -1,19 +1,46 @@
 'use client';
 
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { Camera, LoaderCircle, SmilePlus } from 'lucide-react';
+import { useAuth, useUser } from '@clerk/nextjs';
+import { addDoc, collection } from 'firebase/firestore';
+import toast from 'react-hot-toast';
 import CoverPicker from '@/components/CoverPicker';
 import EmojiPicker from '@/components/EmojiPicker';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { COVER_IMAGE_URLS } from '@/lib/constants';
-import { Camera, SmilePlus } from 'lucide-react';
-import Image from 'next/image';
-import React, { useState } from 'react';
+import { db } from '@/lib/firebase-config';
 
 export default function CreateWorkspace() {
+  const router = useRouter();
   const [coverImage, setCoverImage] = useState<string>(COVER_IMAGE_URLS[0]);
   const [workspaceName, setWorkspaceName] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const { user } = useUser();
+  const { orgId } = useAuth();
 
-  console.log(workspaceName);
+  const handleCreateWorkspace = async () => {
+    setLoading(true);
+    try {
+      const doc = await addDoc(collection(db, 'workspaces'), {
+        name: workspaceName,
+        coverImage: coverImage,
+        createdAt: new Date(),
+        createdBy: user?.primaryEmailAddress?.emailAddress,
+        orgId: orgId ?? user?.primaryEmailAddress?.emailAddress,
+      });
+      setWorkspaceName('');
+      toast.success('Workspace created successfully');
+      router.push(`/dashboard/workspace/${doc.id}`);
+    } catch (error) {
+      console.log(error);
+      toast.error('Error creating workspace');
+    }
+    setLoading(false);
+  };
 
   return (
     <div className='my-6 p-6 md:px-28 lg:px-32 xl:px-36 space-y-6'>
@@ -62,7 +89,15 @@ export default function CreateWorkspace() {
             </EmojiPicker>
           </div>
           <div className='flex justify-end space-x-2 mt-5'>
-            <Button disabled={workspaceName.length === 0}>Create</Button>
+            <Button
+              disabled={workspaceName.length === 0 || loading}
+              onClick={() => handleCreateWorkspace()}
+            >
+              {loading && (
+                <LoaderCircle className='mr-2 h-4 w-4 animate-spin' />
+              )}
+              Create
+            </Button>
             <Button variant='outline'>Cancel</Button>
           </div>
         </div>
