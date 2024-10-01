@@ -10,6 +10,7 @@ export type WorkspaceType = {
 export type DocumentsType = {
   id: string;
   name: string;
+  coverImage: string;
   workspaceId: string;
   createdAt: string;
   createdBy: string;
