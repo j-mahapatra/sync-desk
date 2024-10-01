@@ -13,7 +13,7 @@ import Image from 'next/image';
 
 type CoverPicketProps = {
   children: React.ReactNode;
-  setCoverImage: React.Dispatch<React.SetStateAction<string>>;
+  setCoverImage: (image: string) => void;
 };
 
 export default function CoverPicker({

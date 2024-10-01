@@ -45,7 +45,7 @@ export default function CreateWorkspace() {
   return (
     <div className='my-6 p-6 md:px-28 lg:px-32 xl:px-36 space-y-6'>
       <div className='flex items-center justify-center flex-col w-full h-full border-2 shadow-2xl rounded-xl'>
-        <CoverPicker setCoverImage={setCoverImage}>
+        <CoverPicker setCoverImage={(image) => setCoverImage(image)}>
           <div className='relative w-full'>
             <h2 className='absolute flex w-full h-full items-center justify-center cursor-pointer hover:bg-gray-100/30 bg-transparent transition-all text-gray-600 hover:text-black'>
               <Camera className='mr-2' />
