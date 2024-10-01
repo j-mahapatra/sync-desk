@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Fira_Sans } from 'next/font/google';
 import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
+import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
   title: 'Sync Desk',
@@ -23,7 +24,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang='en'>
-        <body className={`${firaSans.className} antialiased`}>{children}</body>
+        <body className={`${firaSans.className} antialiased`}>
+          <Toaster />
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   );
