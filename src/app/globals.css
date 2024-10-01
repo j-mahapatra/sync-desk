@@ -70,3 +70,31 @@
 .cl-internal-1dauvpw {
   display: none;
 }
+
+.ce-block__content {
+  margin: 1rem;
+}
+
+h1.ce-header {
+  @apply text-xl font-semibold;
+}
+
+h2.ce-header {
+  @apply text-2xl font-semibold;
+}
+
+h3.ce-header {
+  @apply text-xl font-semibold;
+}
+
+h4.ce-header {
+  @apply text-lg font-semibold;
+}
+
+h5.ce-header {
+  @apply text-base font-semibold;
+}
+
+h6.ce-header {
+  @apply text-sm font-semibold;
+}

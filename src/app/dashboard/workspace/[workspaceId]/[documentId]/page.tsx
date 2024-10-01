@@ -1,6 +1,10 @@
 'use client';
 
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import Image from 'next/image';
 import CoverPicker from '@/components/CoverPicker';
+import Editor from '@/components/Editor';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -9,9 +13,6 @@ import { db } from '@/lib/firebase-config';
 import { DocumentsType } from '@/lib/types';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { Camera, Save } from 'lucide-react';
-import Image from 'next/image';
-import { useParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 export default function DocumentDetails() {
@@ -20,6 +21,8 @@ export default function DocumentDetails() {
   const [isLoadingDoc, setIsLoadingDoc] = useState<boolean>(false);
   const [currentDoc, setCurrentDoc] = useState<DocumentsType>();
   const [documentName, setDocumentName] = useState<string>('');
+
+  console.log(currentDoc);
 
   useEffect(() => {
     if (currentDoc?.name) {
@@ -98,7 +101,7 @@ export default function DocumentDetails() {
   }
 
   return (
-    <div className='flex flex-col items-center w-full p-5'>
+    <div className='flex flex-col items-center w-full h-fit p-5 overflow-auto'>
       <CoverPicker setCoverImage={(image) => handleDocumentCoverUpdate(image)}>
         <div className='relative w-full'>
           <h2 className='absolute flex w-full h-full items-center justify-center cursor-pointer hover:bg-gray-100/30 bg-transparent transition-all text-gray-600 hover:text-black'>
@@ -137,6 +140,7 @@ export default function DocumentDetails() {
         )}
       </div>
       <Separator />
+      <Editor />
     </div>
   );
 }

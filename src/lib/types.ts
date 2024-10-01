@@ -1,3 +1,5 @@
+import { OutputData } from '@editorjs/editorjs';
+
 export type WorkspaceType = {
   id: string;
   coverImage: string;
@@ -15,4 +17,6 @@ export type DocumentsType = {
   createdAt: string;
   createdBy: string;
   orgId: string;
+  editorOutput?: OutputData;
+  lastEditedBy?: string;
 };

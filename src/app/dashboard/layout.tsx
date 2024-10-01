@@ -13,7 +13,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className='flex w-full h-screen flex-col bg-slate-100'>
+    <div className='flex w-full h-screen overflow-hidden flex-col bg-slate-100'>
       <Header />
       {children}
     </div>
