@@ -146,9 +146,9 @@ export default function DocumentDetails() {
           <Button onClick={() => setIsCommentContainerOpen((prev) => !prev)}>
             {isCommentContainerOpen ? <SquareX /> : <MessageSquareQuote />}
           </Button>
-          <div className='absolute flex w-fit h-fit right-12 top-10'>
-            {isCommentContainerOpen && <CommentContainer />}
-          </div>
+        </div>
+        <div className='flex w-full h-fit'>
+          {isCommentContainerOpen && <CommentContainer />}
         </div>
         <Separator />
         <Editor />

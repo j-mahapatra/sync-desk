@@ -7,7 +7,7 @@ export default function CommentContainer() {
   const { threads } = useThreads();
 
   return (
-    <div className='h-fit w-[500px] shadow-md overflow-y-auto z-10 rounded-md'>
+    <div className='h-fit w-full shadow-md overflow-y-auto rounded-md mb-1'>
       {threads.map((thread) => (
         <Thread key={thread.id} thread={thread} />
       ))}

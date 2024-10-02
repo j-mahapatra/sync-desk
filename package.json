@@ -16,6 +16,7 @@
     "@editorjs/header": "^2.8.7",
     "@editorjs/link": "^2.6.2",
     "@liveblocks/client": "^2.8.2",
+    "@liveblocks/node": "^2.8.2",
     "@liveblocks/react": "^2.8.2",
     "@liveblocks/react-ui": "^2.8.2",
     "@radix-ui/react-dialog": "^1.1.1",

@@ -21,3 +21,9 @@ export type DocumentsType = {
   editorOutput?: OutputData;
   lastEditedBy?: string;
 };
+
+export type UserType = {
+  email: string;
+  name: string;
+  username: string;
+};
