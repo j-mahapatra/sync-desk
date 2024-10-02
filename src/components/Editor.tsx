@@ -32,7 +32,7 @@ export default function Editor() {
       if (documentId) {
         const docRef = doc(db, 'documents', documentId as string);
         await updateDoc(docRef, {
-          editorOutput: data,
+          editorOutput: JSON.stringify(data),
           lastEditedBy: user?.primaryEmailAddress?.emailAddress ?? '',
         });
       }
@@ -53,7 +53,9 @@ export default function Editor() {
                 if (doc.exists()) {
                   const data = doc.data();
                   if (!isFetched && data?.editorOutput) {
-                    editorInstanceRef.current?.render(data?.editorOutput);
+                    editorInstanceRef.current?.render(
+                      JSON.parse(data?.editorOutput),
+                    );
                   }
                   isFetched = true;
                 }

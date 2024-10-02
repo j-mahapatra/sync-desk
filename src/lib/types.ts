@@ -18,7 +18,7 @@ export type DocumentsType = {
   createdAt: Timestamp;
   createdBy: string;
   orgId: string;
-  editorOutput?: OutputData;
+  editorOutput?: string;
   lastEditedBy?: string;
 };
 
