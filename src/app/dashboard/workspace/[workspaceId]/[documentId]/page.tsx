@@ -12,17 +12,19 @@ import { COVER_IMAGE_URLS } from '@/lib/constants';
 import { db } from '@/lib/firebase-config';
 import { DocumentsType } from '@/lib/types';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { Camera, Save } from 'lucide-react';
+import { Camera, MessageSquareQuote, Save, SquareX } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { Room } from '@/components/Room';
+import CommentContainer from '@/components/CommentContainer';
 
 export default function DocumentDetails() {
-  const { documentId } = useParams();
+  const { workspaceId, documentId } = useParams();
   const [coverImage, setCoverImage] = useState<string>(COVER_IMAGE_URLS[0]);
   const [isLoadingDoc, setIsLoadingDoc] = useState<boolean>(false);
   const [currentDoc, setCurrentDoc] = useState<DocumentsType>();
   const [documentName, setDocumentName] = useState<string>('');
-
-  console.log(currentDoc);
+  const [isCommentContainerOpen, setIsCommentContainerOpen] =
+    useState<boolean>(false);
 
   useEffect(() => {
     if (currentDoc?.name) {
@@ -101,46 +103,56 @@ export default function DocumentDetails() {
   }
 
   return (
-    <div className='flex flex-col items-center w-full h-fit p-5 overflow-auto'>
-      <CoverPicker setCoverImage={(image) => handleDocumentCoverUpdate(image)}>
-        <div className='relative w-full'>
-          <h2 className='absolute flex w-full h-full items-center justify-center cursor-pointer hover:bg-gray-100/30 bg-transparent transition-all text-gray-600 hover:text-black'>
-            <Camera className='mr-2' />
-            <span>Change Cover</span>
-          </h2>
-          <div>
-            <Image
-              src={coverImage}
-              alt='cover image'
-              width={400}
-              height={400}
-              className='w-full h-36 rounded-t-lg'
-            />
+    <Room id={documentId as string}>
+      <div className='flex flex-col items-center w-full h-fit p-5 overflow-auto'>
+        <CoverPicker
+          setCoverImage={(image) => handleDocumentCoverUpdate(image)}
+        >
+          <div className='relative w-full'>
+            <h2 className='absolute flex w-full h-full items-center justify-center cursor-pointer hover:bg-gray-100/30 bg-transparent transition-all text-gray-600 hover:text-black'>
+              <Camera className='mr-2' />
+              <span>Change Cover</span>
+            </h2>
+            <div>
+              <Image
+                src={coverImage}
+                alt='cover image'
+                width={400}
+                height={400}
+                className='w-full h-36 rounded-t-lg'
+              />
+            </div>
+          </div>
+        </CoverPicker>
+        <div className='relative flex w-full justify-between my-5 space-x-5'>
+          {currentDoc?.name || !isLoadingDoc ? (
+            <>
+              <input
+                value={documentName}
+                className='text-left w-full font-bold text-3xl outline-none bg-transparent'
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setDocumentName(e.target.value)
+                }
+              />
+              {currentDoc && currentDoc.name !== documentName && (
+                <Button onClick={() => handleDocumentNameUpdate()}>
+                  <Save />
+                </Button>
+              )}
+            </>
+          ) : (
+            <Skeleton className='h-8 w-48' />
+          )}
+          <Button onClick={() => setIsCommentContainerOpen((prev) => !prev)}>
+            {isCommentContainerOpen ? <SquareX /> : <MessageSquareQuote />}
+          </Button>
+          <div className='absolute flex w-fit h-fit right-12 top-10'>
+            {isCommentContainerOpen && <CommentContainer />}
           </div>
         </div>
-      </CoverPicker>
-      <div className='flex w-full justify-start my-5 space-x-5'>
-        {currentDoc?.name || !isLoadingDoc ? (
-          <>
-            <input
-              value={documentName}
-              className='text-left w-full font-bold text-3xl outline-none bg-transparent'
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setDocumentName(e.target.value)
-              }
-            />
-            {currentDoc && currentDoc.name !== documentName && (
-              <Button onClick={() => handleDocumentNameUpdate()}>
-                <Save />
-              </Button>
-            )}
-          </>
-        ) : (
-          <Skeleton className='h-8 w-48' />
-        )}
+        <Separator />
+        <Editor />
       </div>
-      <Separator />
-      <Editor />
-    </div>
+    </Room>
   );
 }

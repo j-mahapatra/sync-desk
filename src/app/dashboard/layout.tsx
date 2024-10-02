@@ -1,5 +1,6 @@
 import Header from '@/components/Header';
 import type { Metadata } from 'next';
+import '@liveblocks/react-ui/styles.css';
 
 export const metadata: Metadata = {
   title: 'Create Workspace - Sync Desk',
