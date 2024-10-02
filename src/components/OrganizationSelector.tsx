@@ -7,6 +7,8 @@ export default function OrganizationSelector({}) {
       <OrganizationSwitcher
         afterCreateOrganizationUrl='/dashboard'
         afterLeaveOrganizationUrl='/dashboard'
+        afterSelectOrganizationUrl='/dashboard'
+        afterSelectPersonalUrl='/dashboard'
       />
     </div>
   );
