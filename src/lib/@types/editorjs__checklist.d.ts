@@ -1,5 +1,7 @@
 declare module '@editorjs/checklist' {
-  export interface ChecklistToolConfig {}
+  export interface ChecklistToolConfig {
+    [key: string]: any;
+  }
 
   interface BlockTool {
     save: (blockData: any) => Promise<any>;

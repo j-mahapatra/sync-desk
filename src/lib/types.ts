@@ -1,4 +1,3 @@
-import { OutputData } from '@editorjs/editorjs';
 import { Timestamp } from 'firebase/firestore';
 
 export type WorkspaceType = {
