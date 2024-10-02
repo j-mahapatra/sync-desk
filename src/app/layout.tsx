@@ -24,9 +24,11 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang='en'>
-        <body className={`${firaSans.className} antialiased`}>
+        <body
+          className={`flex flex-col ${firaSans.className} antialiased h-screen`}
+        >
           <Toaster />
-          {children}
+          <main className='flex-1 bg-black'>{children}</main>
         </body>
       </html>
     </ClerkProvider>
