@@ -6,14 +6,7 @@ import toast from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
 import { DialogDescription } from '@radix-ui/react-dialog';
 import { useAuth, useUser } from '@clerk/nextjs';
-import {
-  AlignLeft,
-  CopyPlus,
-  LayoutGrid,
-  LoaderCircle,
-  ScrollText,
-  SmilePlus,
-} from 'lucide-react';
+import { CopyPlus, LoaderCircle, ScrollText, SmilePlus } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import {
   addDoc,
@@ -36,9 +29,10 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import EmojiPicker from '@/components/EmojiPicker';
-import { DocumentsType } from '@/lib/types';
+import { DocumentsType, LayoutType } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import DocumentList from '@/components/DocumentList';
+import LayoutSelector from '@/components/LayoutSelector';
 
 export default function WorkspaceDetails() {
   const { user } = useUser();
@@ -50,6 +44,7 @@ export default function WorkspaceDetails() {
   const [newDocName, setNewDocName] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingDocuments, setLoadingDocuments] = useState<boolean>(true);
+  const [selectedLayout, setSelectedLayout] = useState<LayoutType>('grid');
 
   useEffect(() => {
     async function fetchWorkspaceDetails(docId: string) {
@@ -173,10 +168,10 @@ export default function WorkspaceDetails() {
       <Separator />
       <div className='flex justify-between'>
         <h2 className='font-semibold text-3xl text-slate-900'>Documents</h2>
-        <div className='flex space-x-2'>
-          <LayoutGrid />
-          <AlignLeft />
-        </div>
+        <LayoutSelector
+          selectedLayout={selectedLayout}
+          onLayoutChange={(layout) => setSelectedLayout(layout)}
+        />
       </div>
       {loadingDocuments ? (
         <Skeleton className='h-96' />
@@ -192,6 +187,7 @@ export default function WorkspaceDetails() {
       ) : (
         <DocumentList
           documents={workspaceDocs}
+          selectedLayout={selectedLayout}
           workspaceId={workspaceId as string}
         />
       )}

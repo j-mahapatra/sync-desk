@@ -3,13 +3,7 @@
 import { useAuth, useUser } from '@clerk/nextjs';
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import {
-  AlignLeft,
-  CopyPlus,
-  LayoutGrid,
-  Plus,
-  University,
-} from 'lucide-react';
+import { CopyPlus, Plus, University } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { useRouter } from 'next/navigation';
 import {
@@ -21,8 +15,9 @@ import {
 import WorkspaceList from '@/components/WorkspaceList';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '@/lib/firebase-config';
-import { WorkspaceType } from '@/lib/types';
+import { LayoutType, WorkspaceType } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import LayoutSelector from '@/components/LayoutSelector';
 
 export default function Dashboard() {
   const { user } = useUser();
@@ -30,6 +25,7 @@ export default function Dashboard() {
   const router = useRouter();
   const [userWorkspaces, setUserWorkspaces] = useState<WorkspaceType[]>([]);
   const [loadingWorkspaces, setLoadingWorkspaces] = useState<boolean>(true);
+  const [selectedLayout, setSelectedLayout] = useState<LayoutType>('grid');
 
   useEffect(() => {
     const fetchWorkspaceList = async () => {
@@ -78,10 +74,10 @@ export default function Dashboard() {
       <Separator />
       <div className='flex justify-between'>
         <h2 className='font-semibold text-3xl text-slate-900'>Workspaces</h2>
-        <div className='flex space-x-2'>
-          <LayoutGrid />
-          <AlignLeft />
-        </div>
+        <LayoutSelector
+          selectedLayout={selectedLayout}
+          onLayoutChange={(layout) => setSelectedLayout(layout)}
+        />
       </div>
       {loadingWorkspaces ? (
         <Skeleton className='h-96' />
@@ -103,7 +99,10 @@ export default function Dashboard() {
           </div>
         </div>
       ) : (
-        <WorkspaceList workspaces={userWorkspaces} />
+        <WorkspaceList
+          selectedLayout={selectedLayout}
+          workspaces={userWorkspaces}
+        />
       )}
     </div>
   );

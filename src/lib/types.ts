@@ -27,3 +27,5 @@ export type UserType = {
   name: string;
   username: string;
 };
+
+export type LayoutType = 'grid' | 'list';
