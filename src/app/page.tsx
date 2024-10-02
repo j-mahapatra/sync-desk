@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Play } from 'lucide-react';
+import { Zap } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className='relative flex flex-col items-center h-full w-full'>
       <div className='absolute flex w-full justify-end text-white py-5 px-10'>
-        <Button variant={'link'} className='text-lg text-white' asChild>
+        <Button variant={'outline'} className='text-lg text-black' asChild>
           <Link href={'/sign-up'}>Signup</Link>
         </Button>
         <Button variant={'link'} className='text-lg text-white' asChild>
@@ -23,12 +23,12 @@ export default function Home() {
           className='invert'
         />
         <p className='text-slate-300 text-xl sm:text-2xl text-center font-light max-w-3xl'>
-          Collaborations have never been easier. Bring your ideas together and
-          make something great.
+          Collaborations have never been <strong>easier</strong>. Bring your
+          ideas together and make something <strong>great</strong>.
         </p>
         <Button variant={'secondary'} asChild>
           <Link href='/dashboard'>
-            <Play className='mr-2 h-6 w-6' />
+            <Zap className='mr-2 h-6 w-6' />
             Get Started
           </Link>
         </Button>
