@@ -33,6 +33,8 @@ export default function Dashboard() {
 
   useEffect(() => {
     const fetchWorkspaceList = async () => {
+      if (!(orgId ?? user?.primaryEmailAddress?.emailAddress)) return;
+
       const workspaces = query(
         collection(db, 'workspaces'),
         where('orgId', '==', orgId ?? user?.primaryEmailAddress?.emailAddress),
@@ -51,9 +53,7 @@ export default function Dashboard() {
       setLoadingWorkspaces(false);
     };
 
-    if (orgId || user) {
-      fetchWorkspaceList();
-    }
+    fetchWorkspaceList();
   }, [orgId, user]);
 
   return (

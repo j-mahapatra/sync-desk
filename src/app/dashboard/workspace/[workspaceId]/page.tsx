@@ -115,6 +115,7 @@ export default function WorkspaceDetails() {
     }
     setLoading(false);
   };
+
   return (
     <div className='my-6 p-6 md:px-28 lg:px-32 xl:px-36 space-y-6'>
       <div className='flex w-full justify-between'>
