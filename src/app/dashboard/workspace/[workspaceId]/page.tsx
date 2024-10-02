@@ -21,6 +21,9 @@ import {
   doc,
   DocumentData,
   getDoc,
+  getDocs,
+  query,
+  where,
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase-config';
 import {
@@ -33,19 +36,23 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import EmojiPicker from '@/components/EmojiPicker';
+import { DocumentsType } from '@/lib/types';
+import { Skeleton } from '@/components/ui/skeleton';
+import DocumentList from '@/components/DocumentList';
 
 export default function WorkspaceDetails() {
-  const { workspaceId } = useParams();
-  const [workspaceDetails, setWorkspaceDetails] = useState<DocumentData>({});
-  const [workspaceDocs, setWorkspaceDocs] = useState<string[]>([]);
-  const [newDocName, setNewDocName] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false);
   const { user } = useUser();
   const { orgId } = useAuth();
   const router = useRouter();
+  const { workspaceId } = useParams();
+  const [workspaceDetails, setWorkspaceDetails] = useState<DocumentData>({});
+  const [workspaceDocs, setWorkspaceDocs] = useState<DocumentsType[]>([]);
+  const [newDocName, setNewDocName] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [loadingDocuments, setLoadingDocuments] = useState<boolean>(true);
 
   useEffect(() => {
-    async function fetchDocumentById(docId: string) {
+    async function fetchWorkspaceDetails(docId: string) {
       try {
         const docRef = doc(db, 'workspaces', docId);
         const docSnap = await getDoc(docRef);
@@ -60,7 +67,32 @@ export default function WorkspaceDetails() {
       }
     }
     if (workspaceId) {
-      fetchDocumentById(workspaceId as string);
+      fetchWorkspaceDetails(workspaceId as string);
+    }
+  }, [workspaceId]);
+
+  useEffect(() => {
+    const fetchDocumentList = async () => {
+      const documents = query(
+        collection(db, 'documents'),
+        where('workspaceId', '==', workspaceId),
+      );
+      const querySnapshot = await getDocs(documents);
+
+      const newWorkspaces: DocumentsType[] = [];
+
+      querySnapshot.forEach((doc) => {
+        newWorkspaces.push({
+          id: doc.id,
+          ...(doc.data() as Omit<DocumentsType, 'id'>),
+        });
+      });
+      setWorkspaceDocs(newWorkspaces);
+      setLoadingDocuments(false);
+    };
+
+    if (workspaceId) {
+      fetchDocumentList();
     }
   }, [workspaceId]);
 
@@ -145,7 +177,9 @@ export default function WorkspaceDetails() {
           <AlignLeft />
         </div>
       </div>
-      {workspaceDocs.length === 0 && (
+      {loadingDocuments ? (
+        <Skeleton className='h-96' />
+      ) : workspaceDocs.length === 0 ? (
         <div className='flex flex-col w-full justify-center items-center'>
           <div className='flex flex-col w-fit justify-center items-center border rounded-md p-8 shadow-md space-y-6'>
             <p className='w-full text-center'>
@@ -154,6 +188,11 @@ export default function WorkspaceDetails() {
             <ScrollText className='w-36 h-36 text-slate-700' />
           </div>
         </div>
+      ) : (
+        <DocumentList
+          documents={workspaceDocs}
+          workspaceId={workspaceId as string}
+        />
       )}
     </div>
   );
