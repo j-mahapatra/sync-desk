@@ -16,12 +16,15 @@ import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase-config';
 import { useParams } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
+import AITemplate from './AITemplate';
 
 export default function Editor() {
   const { user } = useUser();
   const editorRef = useRef<HTMLDivElement | null>(null);
   const editorInstanceRef = useRef<EditorJS | null>(null);
   const { documentId } = useParams();
+  const [aiGeneratedTemplate, setAiGeneratedTemplate] =
+    useState<OutputData | null>(null);
   let isFetched = false;
 
   const saveEditorChanges = (
@@ -38,6 +41,12 @@ export default function Editor() {
       }
     });
   };
+
+  useEffect(() => {
+    if (aiGeneratedTemplate) {
+      editorInstanceRef.current?.render(aiGeneratedTemplate);
+    }
+  }, [aiGeneratedTemplate]);
 
   useEffect(() => {
     if (editorRef.current && !editorInstanceRef.current) {
@@ -116,8 +125,13 @@ export default function Editor() {
   }, []);
 
   return (
-    <div className='flex w-full h-full max-h-[450px] overflow-y-auto bg-slate-300'>
-      <div ref={editorRef} className='w-full'></div>
+    <div className='flex flex-col w-full h-full'>
+      <div className='flex w-full justify-end p-1'>
+        <AITemplate setAiGeneratedTemplate={setAiGeneratedTemplate} />
+      </div>
+      <div className='flex flex-col w-full h-full max-h-[450px] overflow-y-auto bg-slate-300'>
+        <div ref={editorRef} className='w-full'></div>
+      </div>
     </div>
   );
 }

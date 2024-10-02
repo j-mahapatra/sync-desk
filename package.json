@@ -15,6 +15,7 @@
     "@editorjs/editorjs": "^2.30.6",
     "@editorjs/header": "^2.8.7",
     "@editorjs/link": "^2.6.2",
+    "@google/generative-ai": "^0.20.0",
     "@liveblocks/client": "^2.8.2",
     "@liveblocks/node": "^2.8.2",
     "@liveblocks/react": "^2.8.2",
