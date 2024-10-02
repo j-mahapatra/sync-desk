@@ -138,7 +138,7 @@ export default function WorkspaceDetails() {
             <div className='flex w-full space-x-2'>
               <Input
                 value={newDocName || ''}
-                placeholder='Workspace Name'
+                placeholder='Document Name'
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setNewDocName(e.target.value)
                 }
