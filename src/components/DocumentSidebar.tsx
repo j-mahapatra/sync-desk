@@ -103,9 +103,6 @@ export default function DocumentSidebar() {
 
   return (
     <aside className='hidden md:flex md:flex-col md:w-72 h-full p-5 shadow-sm'>
-      <div className='flex h-max w-full justify-center border-b pb-5'>
-        <Bell className='h-6 w-6 text-slate-900' />
-      </div>
       <div className='flex w-full items-center justify-between my-5'>
         <span className='font-semibold text-lg'>Workspace name</span>
         <Dialog>
@@ -189,7 +186,7 @@ export default function DocumentSidebar() {
           ))
         )}
       </div>
-      <div className='flex flex-col space-y-2 w-full justify-center items-center'>
+      {/* <div className='flex flex-col space-y-2 w-full justify-center items-center'>
         <Progress
           value={(documentList.length / MAX_FREE_DOCUMENT_LIMIT) * 100}
         />
@@ -203,7 +200,7 @@ export default function DocumentSidebar() {
             Unlock <strong>Unlimited</strong> Collaborations
           </span>
         </span>
-      </div>
+      </div> */}
     </aside>
   );
 }
